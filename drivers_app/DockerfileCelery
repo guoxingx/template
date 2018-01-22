@@ -1,0 +1,6 @@
+FROM python:3.6
+
+WORKDIR /drivers_app
+COPY ./ /drivers_app
+
+RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple

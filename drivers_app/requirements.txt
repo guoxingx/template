@@ -1,0 +1,10 @@
+flask
+flask_sqlalchemy
+flask_cors
+flask_script
+flask_migrate
+mysqlclient
+celery
+redis
+scrapy
+xlrd

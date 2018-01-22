@@ -1,6 +1,6 @@
 FROM tiangolo/uwsgi-nginx:python3.6
 
-RUN pip install flask
+RUN pip install flask -i https://mirrors.aliyun.com/pypi/simple
 
 ENV NGINX_MAX_UPLOAD 1m
 ENV UWSGI_INI /app/uwsgi.ini

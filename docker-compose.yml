@@ -2,7 +2,7 @@ version: "2"
 services:
 
     app:
-        build: ./drivers
+        build: ./drivers_app
         ports:
             - "80:80"
         links:
@@ -12,7 +12,7 @@ services:
             - FLASK_CONFIG=development
             - TZ=PRC
         volumes:
-            - ./data/graphs:/app/static/images/graphs
+            - ./drivers_app:/drivers_app
 
     mysql:
         image: mysql
@@ -26,7 +26,7 @@ services:
             - MYSQL_ROOT_PASSWORD=secret
             - MYSQL_USER=drivers
             - MYSQL_PASSWORD=1234
-            - MYSQL_DATABASE=dirvers
+            - MYSQL_DATABASE=drivers
 
     redis:
         image: redis
@@ -35,3 +35,16 @@ services:
         volumes:
             - ./data/redis/data:/data
         command: ["redis-server", "--appendonly", "yes"]
+
+    celery:
+        build:
+            context: ./drivers_app
+            dockerfile: DockerfileCelery
+        links:
+            - redis:redis_conn
+            - mysql:mysql_conn
+        volumes:
+            - ./drivers_app:/drivers_app
+        environment:
+            - TZ=PRC
+        command: celery worker -A tasks -l info
